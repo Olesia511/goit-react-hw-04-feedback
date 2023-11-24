@@ -1,20 +1,34 @@
 import { Button } from './FeedbackOptions.styled';
 
-export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
+export const FeedbackOptions = ({ updateBad, updateNeutral, updateGood }) => {
   return (
     <>
-      {options.map(option => {
-        const name = option[0].toUpperCase() + option.slice(1, option.length);
-        return (
-          <Button
-            key={option}
-            type="button"
-            onClick={() => onLeaveFeedback(option)}
-          >
-            {name}
-          </Button>
-        );
-      })}
+      <Button
+        type="button"
+        onClick={() => {
+          updateGood();
+        }}
+      >
+        {'Good'}
+      </Button>
+
+      <Button
+        type="button"
+        onClick={() => {
+          updateNeutral();
+        }}
+      >
+        {'Neutral'}
+      </Button>
+
+      <Button
+        type="button"
+        onClick={() => {
+          updateBad();
+        }}
+      >
+        {'Bad'}
+      </Button>
     </>
   );
 };
