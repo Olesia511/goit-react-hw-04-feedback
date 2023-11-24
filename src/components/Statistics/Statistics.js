@@ -3,23 +3,22 @@ import {
   TotalFeedbackContainer,
 } from './Statistics.styled.js';
 
-export const Statistics = ({ good, neutral, bad, total, percentage }) => {
+export const Statistics = ({ options, total, percentage }) => {
   return (
     <div>
       <StatisticsNumber>
-        <>
-          <h3>
-            {'Good'}: {good}
-          </h3>
-          <h3>
-            {'Neutral'}: {neutral}
-          </h3>
-          <h3>
-            {'Bad'}: {bad}
-          </h3>
-        </>
+        {options.map(el => {
+          const key = Object.keys(el)[0];
+          const nameBtn = key[0].toUpperCase() + key.slice(1, key.length);
+          const value = Object.values(el);
+
+          return (
+            <h3 key={key}>
+              {nameBtn}: {value}
+            </h3>
+          );
+        })}
       </StatisticsNumber>
-      {console.log(`total`, total)}
       {total === 0 && <h3>There is no feedback</h3>}
       {total > 0 && (
         <TotalFeedbackContainer>

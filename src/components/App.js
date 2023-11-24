@@ -1,34 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GlobalStyle } from './ClobalStyles';
 import { Title, BasicContainer, Section } from './App.styled';
 
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Notification } from './Notification';
 
+const useUpdateValue = (key, defaultValue) => {
+  const [value, setValue] = useState(defaultValue);
+  const objectValue = {
+    [key]: value,
+  };
+  const update = () => {
+    setValue(value => value + 1);
+  };
+  return [objectValue, update];
+};
+
 export const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
+  const [good, setGood] = useUpdateValue('good', 0);
+  const [neutral, setNeutral] = useUpdateValue('neutral', 0);
+  const [bad, setBad] = useUpdateValue('bad', 0);
 
-  const updateGood = () => {
-    setGood(prev => prev + 1);
-  };
-
-  const updateNeutral = () => {
-    setNeutral(prev => prev + 1);
-  };
-
-  const updateBad = () => {
-    setBad(prev => prev + 1);
-  };
+  const options = [good, neutral, bad];
 
   const totalFeedback = () => {
-    return good + neutral + bad;
+    return good.good + neutral.neutral + bad.bad;
   };
 
   const positiveFeedbackPercentage = () => {
     const total = totalFeedback();
-    return good > 0 ? Math.round((good / total) * 100) : 0;
+    return good.good > 0 ? Math.round((good.good / total) * 100) : 0;
   };
 
   return (
@@ -37,9 +38,9 @@ export const App = () => {
         <Title>Please leave feedback</Title>
 
         <FeedbackOptions
-          updateGood={updateGood}
-          updateNeutral={updateNeutral}
-          updateBad={updateBad}
+          updateGood={setGood}
+          updateNeutral={setNeutral}
+          updateBad={setBad}
         />
       </Section>
 
@@ -47,9 +48,7 @@ export const App = () => {
         <Title>Statistics</Title>
 
         <Notification
-          good={good}
-          neutral={neutral}
-          bad={bad}
+          options={options}
           total={totalFeedback()}
           percentage={positiveFeedbackPercentage()}
         />
