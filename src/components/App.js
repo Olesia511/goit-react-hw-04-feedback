@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GlobalStyle } from './ClobalStyles';
 import { Title, BasicContainer, Section } from './App.styled';
 
